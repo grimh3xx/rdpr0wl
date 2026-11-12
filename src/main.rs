@@ -5,9 +5,9 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use std::time::Duration;
 
-/// rdpeek — sonda e validador de RDP (uso autorizado apenas).
+/// rdpr0wl — sonda e validador de RDP (uso autorizado apenas).
 #[derive(Parser)]
-#[command(name = "rdpeek", version, about)]
+#[command(name = "rdpr0wl", version, about)]
 struct Cli {
     #[command(subcommand)]
     cmd: Cmd,
@@ -42,7 +42,7 @@ async fn main() -> Result<()> {
     match Cli::parse().cmd {
         Cmd::Probe { target, port, timeout } => {
             let to = Duration::from_millis(timeout);
-            eprintln!("[*] rdpeek probe {target}:{port}");
+            eprintln!("[*] rdpr0wl probe {target}:{port}");
             match rdp::probe(&target, port, to).await {
                 Ok(p) => println!("[+] {target}:{port} — {}", rdp::describe(&p)),
                 Err(e) => eprintln!("[!] {target}:{port} — {e}"),

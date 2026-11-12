@@ -1,15 +1,15 @@
 [package]
-name = "rdpeek"
+name = "rdpr0wl"
 version = "0.1.0"
 edition = "2021"
 authors = ["grimh3xx"]
 description = "Sonda e validador de RDP para pentest autorizado: negociação de segurança (NLA/TLS) e, planejado, checagem de credencial."
 license = "MIT"
-repository = "https://github.com/grimh3xx/rdpeek"
+repository = "https://github.com/grimh3xx/rdpr0wl"
 keywords = ["pentest", "rdp", "nla", "credssp", "recon"]
 
 [[bin]]
-name = "rdpeek"
+name = "rdpr0wl"
 path = "src/main.rs"
 
 [dependencies]

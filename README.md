@@ -1,4 +1,4 @@
-# rdpeek
+# rdpr0wl
 
 Sonda e (futuro) validador de **RDP** em CLI para pentest autorizado. Faz a
 negociação X.224/RDP e revela a **postura de segurança** do host: RDP puro
@@ -8,8 +8,8 @@ negociação X.224/RDP e revela a **postura de segurança** do host: RDP puro
 
 ## Uso
 ```sh
-rdpeek probe 10.0.0.10
-rdpeek probe 10.0.0.10 --port 3389 --timeout 4000
+rdpr0wl probe 10.0.0.10
+rdpr0wl probe 10.0.0.10 --port 3389 --timeout 4000
 ```
 Exemplo de saída:
 ```
@@ -20,7 +20,7 @@ e os códigos de falha (ex.: `HYBRID_REQUIRED_BY_SERVER`).
 
 ## Validação de credencial (em desenvolvimento)
 ```sh
-rdpeek check 10.0.0.10 -u admin -p Senha123
+rdpr0wl check 10.0.0.10 -u admin -p Senha123
 ```
 O caminho NLA/CredSSP completo (TLS + TSRequest ASN.1 + NTLMSSP) está no
 roadmap em `src/nla.rs`, marcado explicitamente para não mascarar resultado.
