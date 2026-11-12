@@ -1,0 +1,22 @@
+[package]
+name = "rdpeek"
+version = "0.1.0"
+edition = "2021"
+authors = ["grimh3xx"]
+description = "Sonda e validador de RDP para pentest autorizado: negociação de segurança (NLA/TLS) e, planejado, checagem de credencial."
+license = "MIT"
+repository = "https://github.com/grimh3xx/rdpeek"
+keywords = ["pentest", "rdp", "nla", "credssp", "recon"]
+
+[[bin]]
+name = "rdpeek"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1.42", features = ["rt-multi-thread", "net", "macros", "io-util", "time"] }
+clap = { version = "4.5", features = ["derive"] }
+anyhow = "1"
+
+[profile.release]
+strip = true
+lto = true
