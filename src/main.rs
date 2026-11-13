@@ -52,7 +52,7 @@ async fn main() -> Result<()> {
         Cmd::Check { target, user, pass, port, timeout } => {
             let to = Duration::from_millis(timeout);
             match nla::check(&target, port, &user, &pass, to).await {
-                Ok(true) => println!("[+] VÁLIDO {user}:{pass}"),
+                Ok(true) => println!("[+] VALID {user}:{pass}"),
                 Ok(false) => println!("[-] invalid {user}"),
                 Err(e) => eprintln!("[!] {e}"),
             }
