@@ -44,19 +44,24 @@ cargo test --release
 - Integration: a fake RDP server answers the negotiation and `probe` must read
   the selected protocol over a real socket.
 
-## Credential validation (partial)
+## Credential validation (NLA/CredSSP)
 
 ```sh
-rdpr0wl check 10.0.0.10 -u admin -p Secret123
+rdpr0wl check 10.0.0.10 -u 'CORP\\admin' -p Secret123
 ```
 
-The **cryptographic core of NLA — NTLMv2 (NTOWFv2 + NTProofStr) — is implemented
-and proven** against the official MS-NLMP reference vectors (`src/ntlm.rs`,
-`cargo test`). The remaining piece is the CredSSP transport (TLS + TSRequest
-ASN.1 + NTLMSSP + pubKeyAuth), which only means anything against a live
-NLA-enabled host, so `check` reports an explicit status rather than faking a
-result. This is the one capability in the suite that cannot be proven in a
-Linux-only lab.
+Full **CredSSP** is implemented: X.224 HYBRID negotiation, TLS, and the
+TSRequest/NTLMSSP exchange with pubKeyAuth binding. It is proven end to end
+against an **in-process CredSSP peer** (`cargo test`): the right password is
+accepted, the wrong one rejected. The crypto is anchored to known vectors —
+NTLMv2 (NTOWFv2 + NTProofStr) against the official **MS-NLMP** vectors, RC4
+against a known vector, and the NTLMSSP seal/sign round-trips and rejects
+tampering.
+
+> One honest caveat: the in-process peer shares this implementation's reading of
+> the spec, so interop with a **production Windows NLA host** is expected but
+> only fully confirmed against a live target — the same final step the SMB
+> capture needed `smbclient` for.
 
 ## Build
 
