@@ -160,6 +160,17 @@ mod tests {
     }
 
     #[test]
+    fn fuzz_parse_response_no_panic() {
+        let mut x: u64 = 0x0BADF00D_DEADC0DE;
+        for _ in 0..20_000 {
+            x ^= x << 13; x ^= x >> 7; x ^= x << 17;
+            let len = (x as usize) % 64;
+            let buf: Vec<u8> = (0..len).map(|i| (x >> (i % 56)) as u8).collect();
+            let _ = parse_response(&buf);
+        }
+    }
+
+    #[test]
     fn cr_is_well_formed() {
         let cr = build_cr(PROTOCOL_SSL | PROTOCOL_HYBRID);
         assert_eq!(&cr[0..2], &[0x03, 0x00]); // TPKT
