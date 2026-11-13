@@ -1,11 +1,12 @@
-mod nla;
-mod rdp;
 
+
+
+use rdpr0wl::{nla, rdp};
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 use std::time::Duration;
 
-/// rdpr0wl — sonda e validador de RDP (uso autorizado apenas).
+/// rdpr0wl — RDP probe and (planned) validator (authorised use only).
 #[derive(Parser)]
 #[command(name = "rdpr0wl", version, about)]
 struct Cli {
@@ -15,7 +16,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Cmd {
-    /// Descobre a postura de segurança (NLA/TLS/RDP) do host.
+    /// Discover the host security posture (NLA/TLS/RDP).
     Probe {
         target: String,
         #[arg(long, default_value_t = 3389)]
@@ -23,7 +24,7 @@ enum Cmd {
         #[arg(long, default_value_t = 5000)]
         timeout: u64,
     },
-    /// Valida uma credencial via NLA/CredSSP (em desenvolvimento).
+    /// Validate a credential via NLA/CredSSP (in development).
     Check {
         target: String,
         #[arg(short, long)]
@@ -52,7 +53,7 @@ async fn main() -> Result<()> {
             let to = Duration::from_millis(timeout);
             match nla::check(&target, port, &user, &pass, to).await {
                 Ok(true) => println!("[+] VÁLIDO {user}:{pass}"),
-                Ok(false) => println!("[-] inválido {user}"),
+                Ok(false) => println!("[-] invalid {user}"),
                 Err(e) => eprintln!("[!] {e}"),
             }
         }

@@ -1,14 +1,14 @@
-//! Validação de credencial via CredSSP/NLA.
+//! Credential validation via CredSSP/NLA.
 //!
-//! PLANEJADO. O caminho completo exige: TLS (rustls) sobre o socket após o
-//! Connection Confirm, seguido do sub-protocolo CredSSP (TSRequest ASN.1 DER)
-//! carregando a troca NTLMSSP/SPNEGO e, por fim, a validação da senha.
+//! PLANNED. The full path requires: TLS (rustls) over the socket after the
+//! Connection Confirm, then the CredSSP sub-protocol (TSRequest ASN.1 DER)
+//! carrying the NTLMSSP/SPNEGO exchange, and finally password validation.
 //!
-//! Depêndencias previstas: rustls + tokio-rustls, uma impl NTLM, e um
-//! codificador DER. Deixado explícito para não fingir resultado.
+//! Left explicit so it never fakes a result. Validating a live credential
+//! needs a real NLA-enabled host, which the probe path does not.
 use anyhow::{bail, Result};
 use std::time::Duration;
 
 pub async fn check(_host: &str, _port: u16, _user: &str, _pass: &str, _to: Duration) -> Result<bool> {
-    bail!("validação NLA/CredSSP ainda não implementada (roadmap: rustls + CredSSP)")
+    bail!("NLA/CredSSP credential validation is not implemented yet (roadmap: rustls + CredSSP)")
 }

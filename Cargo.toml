@@ -3,7 +3,7 @@ name = "rdpr0wl"
 version = "0.1.0"
 edition = "2021"
 authors = ["grimh3xx"]
-description = "Sonda e validador de RDP para pentest autorizado: negociação de segurança (NLA/TLS) e, planejado, checagem de credencial."
+description = "RDP security probe for authorised pentests: detects NLA/TLS/CredSSP posture; credential validation planned."
 license = "MIT"
 repository = "https://github.com/grimh3xx/rdpr0wl"
 keywords = ["pentest", "rdp", "nla", "credssp", "recon"]
@@ -20,3 +20,6 @@ anyhow = "1"
 [profile.release]
 strip = true
 lto = true
+
+[dev-dependencies]
+tokio = { version = "1.42", features = ["rt-multi-thread", "macros", "net", "io-util", "time"] }

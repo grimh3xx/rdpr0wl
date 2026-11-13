@@ -83,18 +83,18 @@ class Session:
 
 def build():
     s = Session()
-    s.out([seg("rdpr0wl", "cyan", True), seg(" — RDP security probe", "muted")], dur=1)
+    s.out([seg("rdpr0wl", "cyan", True), seg(" \u2014 RDP security probe", "muted")], dur=1)
     s.blank()
     s.type("rdpr0wl probe 10.0.0.10")
     s.enter()
     s.out([seg("[*] rdpr0wl probe 10.0.0.10:3389", "text")])
-    s.out([seg("[+] ", "green", True), seg("10.0.0.10:3389", "white"), seg(" — selecionou: ", "text"), seg("TLS + CredSSP/NLA obrigatorio", "cyan", True)])
+    s.out([seg("[+] ", "green", True), seg("10.0.0.10:3389", "white"), seg(" \u2014 selected: ", "text"), seg("TLS + CredSSP/NLA required", "cyan", True)])
     s.blank()
     s.type("rdpr0wl probe 10.0.0.22")
     s.enter()
     s.out([seg("[*] rdpr0wl probe 10.0.0.22:3389", "text")])
-    s.out([seg("[+] ", "green", True), seg("10.0.0.22:3389", "white"), seg(" — ", "text"), seg("RDP padrao (sem TLS — inseguro)", "red", True)])
-    s.out([seg("    NLA ausente: alvo exposto a downgrade / bruteforce", "amber")])
+    s.out([seg("[+] ", "green", True), seg("10.0.0.22:3389", "white"), seg(" \u2014 ", "text"), seg("plain RDP (no TLS \u2014 insecure)", "red", True)])
+    s.out([seg("    NLA absent: target exposed to downgrade / bruteforce", "amber")])
     s.cursor_hold()
     return s
 

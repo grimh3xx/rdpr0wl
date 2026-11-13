@@ -1,4 +1,4 @@
-# rdpr0wl
+<img src="docs/banner.svg" alt="rdpr0wl" width="100%">
 
 [![build](https://img.shields.io/github/actions/workflow/status/grimh3xx/rdpr0wl/build.yml?branch=main&style=flat-square&labelColor=111826&label=build)](https://github.com/grimh3xx/rdpr0wl/actions)
 [![license](https://img.shields.io/github/license/grimh3xx/rdpr0wl?style=flat-square&labelColor=111826&color=22D3EE)](LICENSE)
@@ -7,41 +7,52 @@
 ![authorised use](https://img.shields.io/badge/authorised%20use-only-F87171?style=flat-square&labelColor=111826)
 
 
-**Sonda e (futuro) validador de RDP em Rust** para pentest autorizado. Faz a
-negociação X.224/RDP e revela a **postura de segurança** do host: RDP puro
-(inseguro), TLS, ou **CredSSP/NLA obrigatório** — útil pra priorizar alvos e
-flagrar máquinas expostas a downgrade/bruteforce.
+**RDP security probe in Rust** for authorised pentests. It runs the X.224/RDP
+negotiation and reveals the host's **security posture**: plain RDP (insecure),
+TLS, or mandatory **CredSSP/NLA** — handy to prioritise targets and flag boxes
+exposed to downgrade/bruteforce.
 
 <p align="center"><img src="docs/demo.svg" alt="rdpr0wl demo" width="100%"></p>
 
-> ## ⚠️ Uso autorizado apenas
-> Rode **somente** contra hosts com **permissão explícita**. A responsabilidade
-> é sua.
+> ## ⚠️ Authorised use only
+> Run **only** against hosts you have explicit permission to test.
 
-## Uso
+## Usage
 
 ```sh
 rdpr0wl probe 10.0.0.10
 rdpr0wl probe 10.0.0.10 --port 3389 --timeout 4000
 ```
 
-Saída de exemplo:
+Example output:
 
 ```
-[+] 10.0.0.10:3389 — selecionou: TLS + CredSSP/NLA obrigatório (0x00000003)
+[+] 10.0.0.10:3389 — selected: TLS + CredSSP/NLA required (0x00000003)
 ```
 
-Lê o `RDP_NEG_RSP`/`RDP_NEG_FAILURE` e traduz os bits (TLS, HYBRID, HYBRID_EX)
-e os códigos de falha (ex.: `HYBRID_REQUIRED_BY_SERVER`).
+It reads the `RDP_NEG_RSP`/`RDP_NEG_FAILURE` and decodes the bits (TLS, HYBRID,
+HYBRID_EX) and failure codes (e.g. `HYBRID_REQUIRED_BY_SERVER`).
 
-## Validação de credencial (em desenvolvimento)
+## Tests
 
 ```sh
-rdpr0wl check 10.0.0.10 -u admin -p Senha123
+cargo test --release
 ```
 
-O caminho NLA/CredSSP completo (TLS + TSRequest ASN.1 + NTLMSSP) está no roadmap
-em `src/nla.rs`, marcado explicitamente para não mascarar resultado.
+- Unit: the Connection Request is well-formed; neg-response/failure/legacy bytes
+  decode correctly.
+- Integration: a fake RDP server answers the negotiation and `probe` must read
+  the selected protocol over a real socket.
+
+## Credential validation (roadmap)
+
+```sh
+rdpr0wl check 10.0.0.10 -u admin -p Secret123   # not implemented yet
+```
+
+Full NLA/CredSSP (TLS + TSRequest ASN.1 + NTLMSSP) is tracked in `src/nla.rs`.
+It is left as an explicit stub rather than faked, because validating a live
+credential requires a real NLA-enabled host.
 
 ## Build
 
@@ -49,6 +60,6 @@ em `src/nla.rs`, marcado explicitamente para não mascarar resultado.
 cargo build --release
 ```
 
-## Licença
+## License
 
-MIT. Veja [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
